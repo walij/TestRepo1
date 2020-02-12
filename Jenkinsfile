@@ -1,45 +1,91 @@
 pipeline {
-         agent any
-         stages {
-                 stage('One') {
-                 steps {
-                     echo 'Hi, this is Zulaikha from edureka'
-                 }
-                 }
-                 stage('Two') {
-                 steps {
-                    input('Do you want to proceed?')
-                 }
-                 }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello"
-                 }
-                 }
-                 stage('Four') {
-                 parallel { 
-                            stage('Unit Test') {
-                           steps {
-                                echo "Running the unit test..."
-                           }
-                           }
-                            stage('Integration test') {
-                              agent {
-                                    docker {
-                                            reuseNode true
-                                            image 'ubuntu'
-                                           }
-                                    }
-                              steps {
-                                echo "Running the integration test..."
-                              }
-                           }
-                           }
-                           }
-              }
+
+ 
+ 
+
+ 
+agent any
+
+ 
+ 
+
+ 
+stages {
+
+ 
+stage ('Initital Setup') {
+
+ 
+steps {
+
+ 
+input('In pipeline, We take decision. Can we proceed?')
+
+ 
+}
+
+ 
+}
+
+ 
+stage ('Get Java Home Path') {
+
+ 
+steps {
+
+ 
+echo "PATH = ${PATH}"
+
+ 
+echo "Java_HOME = ${JAVA_HOME}"
+
+ 
+}
+
+ 
+}
+
+ 
+ 
+
+ 
+stage ('Execute Selenium Script from Git Repo ') {
+
+ 
+steps {
+
+ 
+bat label: '', script: 'executeTest.bat'
+
+ 
+}
+
+ 
+}
+
+ 
+stage ('Report') {
+
+ 
+steps {
+
+ 
+echo "Report Details"
+
+ 
+}
+
+ 
+}
+
+ 
+ 
+
+ 
+ 
+
+ 
+}
+
+ 
 }
